@@ -2,6 +2,8 @@
 
 Basic Todo PWA App built using React, Redux, React Router, MUI, Firebase & deployed with GitHub Pages.
 
+You can download the app on your device from here: https://vadimgierko.github.io/todo-app/. If you're using Google Chrome, navigate to https://vadimgierko.github.io/todo-app/. New “install” icon will appear on the url right-hand side. The install icon looks like an ‘install icon’ symbol inside a computer screen icon, usually to the left of the share this page icon. Install may be accessed by tapping or clicking the install icon.
+
 This app is generated from my [vadimgierko/react-redux-router-firebase-auth-rtdb-crud-mui-app template](https://github.com/vadimgierko/react-redux-router-firebase-auth-rtdb-crud-mui-app#readme).
 
 ## Features
