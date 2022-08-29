@@ -32,7 +32,6 @@ export default function Navbar({ toggleSideMenu }) {
 					>
 						<MenuIcon />
 					</IconButton>
-					{/* <Typography variant="h6">Redux MUI Todo App</Typography> */}
 					{/* empty box to push what's next to the right */}
 					<Box sx={{ flexGrow: 1 }}></Box>
 					<Typography component="span" variant="body1" sx={{ mr: 1 }}>

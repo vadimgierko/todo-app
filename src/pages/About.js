@@ -9,19 +9,20 @@ export default function About() {
 				About
 			</Typography>
 			<Typography paragraph={true} variant="body1">
-				This is basic <strong>Single Page CRUD App</strong> template starter
-				built with <strong>React & Redux (Toolkit)</strong> integrated with{" "}
-				<strong>Firebase Realtime Database</strong> with basic routes set with{" "}
-				<strong>React Router</strong> &{" "}
-				<strong>UI using MaterialUI (MUI)</strong>.
+				Basic Todo PWA built using React, Redux, React Router, MUI, Firebase &
+				deployed with GitHub Pages.
+			</Typography>
+			<Typography paragraph={true} variant="body1">
+				If you're using Google Chrome, You can download the app by clicking
+				“install” icon on the right-hand side of URL. The install icon looks
+				like an ‘install icon’ symbol inside a computer screen icon, usually to
+				the left of the share this page icon. Install may be accessed by tapping
+				or clicking the install icon.
 			</Typography>
 			<Typography paragraph={true} variant="body1">
 				Click here to see the{" "}
-				<Link
-					href="https://github.com/vadimgierko/react-redux-router-firebase-auth-rtdb-crud-mui-app"
-					target="_blank"
-				>
-					repository code on GitHub
+				<Link href="https://github.com/vadimgierko/todo-app" target="_blank">
+					app's repository code on GitHub
 				</Link>
 				.
 			</Typography>

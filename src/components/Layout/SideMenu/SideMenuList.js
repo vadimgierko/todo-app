@@ -1,4 +1,6 @@
+// mui components:
 import List from "@mui/material/List";
+// custom components:
 import SideMenuListItem from "./SideMenuListItem";
 
 export default function SideMenuList({ listItems = [], onClick = (f) => f }) {

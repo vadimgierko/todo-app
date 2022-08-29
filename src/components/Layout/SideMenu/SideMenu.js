@@ -16,9 +16,9 @@ import FormatListBulletedIcon from "@mui/icons-material/FormatListBulleted";
 import SideMenuList from "./SideMenuList";
 
 const PAGES_LINKS = {
-	public: [
-		{ name: "About", link: "/", icon: <InfoOutlinedIcon /> },
-		{ name: "Items", link: "/items", icon: <FormatListBulletedIcon /> },
+	public: [{ name: "About", link: "/", icon: <InfoOutlinedIcon /> }],
+	private: [
+		{ name: "Tasks", link: "/items", icon: <FormatListBulletedIcon /> },
 	],
 };
 
@@ -44,11 +44,21 @@ export default function SideMenu({ isOpen, toggleSideMenu }) {
 			>
 				<Toolbar>
 					<Typography variant="h6" component="div">
-						Redux MUI CRUD App
+						Todo App
 					</Typography>
 				</Toolbar>
+				{/* PUBLIC PAGES LINKS */}
 				<Divider />
 				<SideMenuList listItems={PAGES_LINKS.public} onClick={toggleSideMenu} />
+				{/* PRIVATE PAGES LINKS */}
+				<Divider />
+				{user.id && (
+					<SideMenuList
+						listItems={PAGES_LINKS.private}
+						onClick={toggleSideMenu}
+					/>
+				)}
+				{/* AUTH LINKS */}
 				<Divider />
 				<SideMenuList
 					listItems={user.id ? AUTH_LINKS.private : AUTH_LINKS.public}

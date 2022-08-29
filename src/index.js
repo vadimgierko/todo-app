@@ -6,28 +6,21 @@ import * as serviceWorkerRegistration from "./serviceWorkerRegistration";
 import reportWebVitals from "./reportWebVitals";
 import store from "./store/store";
 import { Provider } from "react-redux";
-import { HashRouter } from "react-router-dom";
+import { BrowserRouter } from "react-router-dom";
 import { DarkModeProvider } from "./contexts/useDarkMode";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
 // React.StrictMode is off to prevent the double fetching data from database in dev mode.
-// Uncomment this code when build.
-
-// root.render(
-//   <React.StrictMode>
-//     <App />
-//   </React.StrictMode>
-// );
 
 root.render(
-	<HashRouter>
+	<BrowserRouter basename={process.env.PUBLIC_URL}>
 		<DarkModeProvider>
 			<Provider store={store}>
 				<App />
 			</Provider>
 		</DarkModeProvider>
-	</HashRouter>
+	</BrowserRouter>
 );
 
 // If you want your app to work offline and load faster, you can change
