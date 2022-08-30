@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useSelector } from "react-redux";
 // auth:
-import logOut from "../../../auth/logOut";
+import logOut from "../../auth/logOut";
 // mui:
 import Box from "@mui/material/Box";
 import IconButton from "@mui/material/IconButton";

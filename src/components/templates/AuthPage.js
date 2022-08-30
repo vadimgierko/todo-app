@@ -3,7 +3,6 @@ import { useSelector } from "react-redux";
 import { Link as RouterLink, useNavigate } from "react-router-dom";
 import AuthForm from "../organisms/AuthForm";
 // mui:
-import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Link from "@mui/material/Link";
 import { Container } from "@mui/system";
@@ -20,7 +19,7 @@ export default function AuthPage({
 	function handleSubmit(e, userData) {
 		e.preventDefault();
 		onSubmit(userData);
-		navigate("/");
+		navigate(submitText === "sign in" ? "/items" : "/");
 	}
 
 	useEffect(() => {

@@ -1,6 +1,6 @@
 import { useSelector } from "react-redux";
 // contexts:
-import { useDarkMode } from "../../../contexts/useDarkMode";
+import { useDarkMode } from "../../contexts/useDarkMode";
 // custom components:
 import UserIconMenu from "./UserIconMenu";
 // mui:

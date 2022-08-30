@@ -9,8 +9,8 @@ export default async function signIn(userData) {
 			userData.password
 		);
 		// Signed in
-		const user = userCredential.user;
-		console.log(user);
+		//const user = userCredential.user;
+		//console.log(user);
 	} catch (error) {
 		alert(error.message);
 	}

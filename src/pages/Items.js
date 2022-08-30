@@ -5,13 +5,9 @@ import { useNavigate } from "react-router-dom";
 import { addItemWithAutoKey } from "../thunks/addItemWithAutoKey";
 // components:
 import AddItemForm from "../components/organisms/AddItemForm";
-//import ItemForm from "../components/organisms/ItemForm";
 import ItemsList from "../components/organisms/ItemsList";
 // mui:
 import Box from "@mui/material/Box";
-import Typography from "@mui/material/Typography";
-import Container from "@mui/material/Container";
-import Divider from "@mui/material/Divider";
 
 export default function Items() {
 	const user = useSelector((state) => state.user.value);
@@ -47,13 +43,6 @@ export default function Items() {
 
 	return (
 		<Box className="items-page">
-			{/* <Typography
-				variant="h4"
-				component="h1"
-				sx={{ my: 2, textAlign: "center" }}
-			>
-				Your items
-			</Typography> */}
 			<br />
 			<AddItemForm onSubmit={handleSubmit} />
 			<ItemsList items={items} pending={pending} />

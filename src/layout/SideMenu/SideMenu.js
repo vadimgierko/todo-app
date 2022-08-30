@@ -1,6 +1,6 @@
 import { useSelector } from "react-redux";
 // auth:
-import logOut from "../../../auth/logOut";
+import logOut from "../../auth/logOut";
 // mui components:
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";

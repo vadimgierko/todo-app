@@ -7,13 +7,12 @@ import { useRoutes } from "react-router-dom";
 // contexts:
 import { useDarkMode } from "./contexts/useDarkMode";
 // components:
-import Layout from "./components/Layout/Layout";
+import Layout from "./layout";
 // pages:
 import About from "./pages/About";
 import Items from "./pages/Items";
 import SignIn from "./pages/SignIn";
 import SignUp from "./pages/SignUp";
-import Item from "./pages/Item";
 // reducers actions:
 import { userSignedIn, userLoggedOut } from "./features/user/userSlice";
 import { fetchItems } from "./thunks/fetchItems";
@@ -46,10 +45,6 @@ const ROUTES = [
 		element: <Items />,
 	},
 	{
-		path: "items/:itemKey",
-		element: <Item />,
-	},
-	{
 		path: "signin",
 		element: <SignIn />,
 	},
@@ -60,7 +55,7 @@ const ROUTES = [
 ];
 
 export default function App() {
-	const { darkMode } = useDarkMode();
+	const { darkMode, switchMode } = useDarkMode(); // darkMode === false by default
 	const dispatch = useDispatch();
 
 	const routes = useRoutes(ROUTES);
@@ -84,6 +79,19 @@ export default function App() {
 			});
 		return unsubscribe();
 	}, [dispatch]);
+
+	// DARK MODE:
+	useEffect(() => {
+		const userPrefersDarkMode = () =>
+			window.matchMedia &&
+			window.matchMedia("(prefers-color-scheme: dark)").matches;
+		console.log("Does user prefer dark mode?", userPrefersDarkMode());
+
+		if (userPrefersDarkMode()) {
+			if (darkMode) return;
+			switchMode();
+		}
+	}, []);
 
 	return (
 		<ThemeProvider theme={darkMode ? darkTheme : lightTheme}>

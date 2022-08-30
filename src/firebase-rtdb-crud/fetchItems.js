@@ -6,8 +6,8 @@ export default async function fetchItems(reference) {
 		const snapshot = await get(ref(rtdb, reference));
 		if (snapshot.exists()) {
 			const data = snapshot.val();
-			console.log("DATA WAS FETCHED: ALL USER'S ITEMS FROM", reference);
-			console.log("fetchedItems:", data);
+			//console.log("DATA WAS FETCHED: ALL USER'S ITEMS FROM", reference);
+			//console.log("fetchedItems:", data);
 			return data;
 		} else {
 			console.log("There are no items at", reference);
