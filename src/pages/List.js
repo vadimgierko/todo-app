@@ -9,17 +9,18 @@ import ItemsList from "../components/organisms/ItemsList";
 // mui:
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
-import Link from "@mui/material/Link";
+// slices:
 import { listUpdated } from "../features/lists/listsSlice";
 
 export default function List() {
 	const { id } = useParams();
 	const user = useSelector((state) => state.user.value);
 	const lists = useSelector((state) => state.lists.value);
-	const [list, setList] = useState();
 	const items = useSelector((state) => state.items.value);
 	const pending = useSelector((state) => state.items.pending);
 	const dispatch = useDispatch();
+	const [list, setList] = useState();
+	const [tasks, setTasks] = useState();
 
 	// HANDLE ADDING A NEW TASK TO THE LIST:
 	function handleSubmit(e, inputValue) {
@@ -49,15 +50,7 @@ export default function List() {
 		}
 	}
 
-	function getListTasks() {
-		if (list.tasks && Object.keys(list.tasks).length) {
-			let tasks = {};
-			Object.keys(list.tasks).forEach(
-				(taskId) => (tasks = { ...tasks, [taskId]: items[taskId] })
-			);
-			return tasks;
-		}
-	}
+	useEffect(() => console.log("items:", items), [items]);
 
 	// GET LIST DATA BY ID FROM LISTS IN STORE:
 	useEffect(() => {
@@ -67,12 +60,19 @@ export default function List() {
 		}
 	}, [id, lists]);
 
-	// LOG LIST DATA IN CONSOLE:
 	useEffect(() => {
-		if (list) {
-			console.log("list data:", list);
+		function getListTasks() {
+			if (list && list.tasks && Object.keys(list.tasks).length) {
+				let tasks = {};
+				Object.keys(list.tasks).forEach(
+					(taskId) => (tasks = { ...tasks, [taskId]: items[taskId] })
+				);
+				return tasks;
+			}
 		}
-	}, [list]);
+		const tasks = getListTasks();
+		setTasks(tasks);
+	}, [items, list]);
 
 	if (!user.id) return <p>You need to be logged in...</p>;
 
@@ -84,11 +84,8 @@ export default function List() {
 			<Typography variant="h4" component="h1" sx={{ my: 2 }}>
 				{list.title}
 			</Typography>
-			<AddItemForm
-				cta="type the name of your new todo list"
-				onSubmit={handleSubmit}
-			/>
-			<ItemsList items={getListTasks()} pending={pending} />
+			<AddItemForm cta="add some task here" onSubmit={handleSubmit} />
+			<ItemsList items={tasks} pending={pending} />
 		</Box>
 	);
 }

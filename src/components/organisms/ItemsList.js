@@ -1,6 +1,7 @@
 import ItemCard from "../molecules/ItemCard";
 
 export default function ItemsList({ items, pending }) {
+	console.log("items in itemslist:", items);
 	if (pending)
 		return (
 			<div className="items-list" style={{ textAlign: "center" }}>

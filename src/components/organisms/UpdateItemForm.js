@@ -11,6 +11,7 @@ export default function UpdateItemForm({
 	defaultValue = "",
 	onSubmit,
 	onCancel,
+	cta = "type a new value for an item",
 }) {
 	const [inputValue, setInputValue] = useState(defaultValue);
 
@@ -32,7 +33,7 @@ export default function UpdateItemForm({
 				}}
 			>
 				<Input
-					placeholder="type a new value for an item"
+					placeholder={cta}
 					value={inputValue}
 					onChange={(e) => setInputValue(e.target.value)}
 					sx={{ flexGrow: 1 }}

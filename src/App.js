@@ -10,19 +10,18 @@ import { useDarkMode } from "./contexts/useDarkMode";
 import Layout from "./layout";
 // pages:
 import About from "./pages/About";
-import Items from "./pages/Items";
 import SignIn from "./pages/SignIn";
 import SignUp from "./pages/SignUp";
 // reducers actions:
 import { userSignedIn, userLoggedOut } from "./features/user/userSlice";
-import { fetchItems } from "./thunks/fetchItems";
+import { fetchLists } from "./thunks/lists/fetchLists";
+import { fetchTasks } from "./thunks/tasks/fetchTasks";
 import { resetState } from "./features/items/itemsSlice";
 // mui:
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
 import Lists from "./pages/Lists";
 import List from "./pages/List";
-import { fetchLists } from "./thunks/lists/fetchLists";
 
 // mui themes:
 const darkTheme = createTheme({
@@ -78,7 +77,7 @@ export default function App() {
 					dispatch(userSignedIn({ email: email, id: uid }));
 					//========> UNCOMMENT THIS CODE TO FETCH AFTER APP MOUNTS & USER IS LOGGED:
 					dispatch(fetchLists({ reference: "lists/" + uid }));
-					//dispatch(fetchItems({ reference: "items/" + uid }));
+					dispatch(fetchTasks({ reference: "tasks/" + uid }));
 				} else {
 					// User is signed out
 					dispatch(userLoggedOut());

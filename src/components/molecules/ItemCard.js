@@ -14,6 +14,7 @@ import Box from "@mui/material/Box";
 import DeleteOutlinedIcon from "@mui/icons-material/DeleteOutlined";
 import EditIcon from "@mui/icons-material/Edit";
 import { Typography } from "@mui/material";
+import { updateTask } from "../../thunks/task/updateTask";
 
 export default function ItemCard({ item, itemKey }) {
 	const user = useSelector((state) => state.user.value);
@@ -23,13 +24,11 @@ export default function ItemCard({ item, itemKey }) {
 	const handleSubmit = (e, newValue) => {
 		e.preventDefault();
 		if (newValue.length) {
-			// to update only item's value, use this:
-			const reference = "items/" + user.id + "/" + itemKey + "/value";
 			dispatch(
-				updateItemValue({
-					reference: reference,
-					itemKey: itemKey,
+				updateTask({
+					taskId: itemKey,
 					value: newValue,
+					uid: user.id,
 				})
 			);
 			setIsEditMode(false);
@@ -51,6 +50,7 @@ export default function ItemCard({ item, itemKey }) {
 		);
 	};
 
+	if (!user || !user.id) return <p>You need to be logged...</p>;
 	if (!item) return null;
 
 	if (isEditMode)
