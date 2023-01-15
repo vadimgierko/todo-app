@@ -1,9 +1,9 @@
 import { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 // thunks:
+import { updateTask } from "../../thunks/task/updateTask";
+import { toggleTask } from "../../thunks/task/toggleTask";
 import { deleteItem } from "../../thunks/deleteItem";
-import { updateItemValue } from "../../thunks/updateItemValue";
-import { toggleItem } from "../../thunks/toggleItem";
 // custom components
 import UpdateItemForm from "../organisms/UpdateItemForm";
 // mui:
@@ -14,14 +14,13 @@ import Box from "@mui/material/Box";
 import DeleteOutlinedIcon from "@mui/icons-material/DeleteOutlined";
 import EditIcon from "@mui/icons-material/Edit";
 import { Typography } from "@mui/material";
-import { updateTask } from "../../thunks/task/updateTask";
 
 export default function ItemCard({ item, itemKey }) {
 	const user = useSelector((state) => state.user.value);
 	const dispatch = useDispatch();
 	const [isEditMode, setIsEditMode] = useState(false);
 
-	const handleSubmit = (e, newValue) => {
+	const handleUpdate = (e, newValue) => {
 		e.preventDefault();
 		if (newValue.length) {
 			dispatch(
@@ -39,12 +38,10 @@ export default function ItemCard({ item, itemKey }) {
 
 	const handleToggle = (e) => {
 		e.preventDefault();
-		// to only toggle item (change the value of completed prop), use this:
-		const reference = "items/" + user.id + "/" + itemKey + "/completed";
 		dispatch(
-			toggleItem({
-				reference: reference,
-				itemKey: itemKey,
+			toggleTask({
+				taskId: itemKey,
+				uid: user.id,
 				completed: !item.completed,
 			})
 		);
@@ -57,7 +54,7 @@ export default function ItemCard({ item, itemKey }) {
 		return (
 			<UpdateItemForm
 				defaultValue={item.value}
-				onSubmit={handleSubmit}
+				onSubmit={handleUpdate}
 				onCancel={() => setIsEditMode(false)}
 			/>
 		);
