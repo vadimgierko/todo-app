@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Link as RouterLink } from "react-router-dom";
 // thunks:
@@ -8,7 +9,6 @@ import AddItemForm from "../components/organisms/AddItemForm";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Link from "@mui/material/Link";
-import { useEffect } from "react";
 
 export default function Lists() {
 	const user = useSelector((state) => state.user.value);
