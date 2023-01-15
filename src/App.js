@@ -20,6 +20,9 @@ import { resetState } from "./features/items/itemsSlice";
 // mui:
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
+import Lists from "./pages/Lists";
+import List from "./pages/List";
+import { fetchLists } from "./thunks/lists/fetchLists";
 
 // mui themes:
 const darkTheme = createTheme({
@@ -41,8 +44,12 @@ const ROUTES = [
 		element: <About />,
 	},
 	{
-		path: "items",
-		element: <Items />,
+		path: "/lists",
+		element: <Lists />,
+	},
+	{
+		path: "/lists/:id",
+		element: <List />,
 	},
 	{
 		path: "signin",
@@ -70,7 +77,8 @@ export default function App() {
 					const email = user.email;
 					dispatch(userSignedIn({ email: email, id: uid }));
 					//========> UNCOMMENT THIS CODE TO FETCH AFTER APP MOUNTS & USER IS LOGGED:
-					dispatch(fetchItems({ reference: "items/" + uid }));
+					dispatch(fetchLists({ reference: "lists/" + uid }));
+					//dispatch(fetchItems({ reference: "items/" + uid }));
 				} else {
 					// User is signed out
 					dispatch(userLoggedOut());
