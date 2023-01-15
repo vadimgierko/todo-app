@@ -1,7 +1,6 @@
 import ItemCard from "../molecules/ItemCard";
 
-export default function ItemsList({ items, pending }) {
-	console.log("items in itemslist:", items);
+export default function ItemsList({ items, pending, listId }) {
 	if (pending)
 		return (
 			<div className="items-list" style={{ textAlign: "center" }}>
@@ -16,7 +15,7 @@ export default function ItemsList({ items, pending }) {
 		<ul className="items-list" style={{ listStyle: "none", paddingLeft: 0 }}>
 			{Object.keys(items).map((key) => (
 				<li key={key}>
-					<ItemCard item={items[key]} itemKey={key} />
+					<ItemCard item={items[key]} itemKey={key} listId={listId} />
 				</li>
 			))}
 		</ul>

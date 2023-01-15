@@ -56,6 +56,7 @@ export default function List() {
 	useEffect(() => {
 		if (id) {
 			const list = lists[id];
+			console.log("list", id, list);
 			setList(list);
 		}
 	}, [id, lists]);
@@ -68,11 +69,14 @@ export default function List() {
 					(taskId) => (tasks = { ...tasks, [taskId]: items[taskId] })
 				);
 				return tasks;
+			} else {
+				return null;
 			}
 		}
 		const tasks = getListTasks();
+		console.log("tasks in list", id, tasks);
 		setTasks(tasks);
-	}, [items, list]);
+	}, [items, list, id]);
 
 	if (!user.id) return <p>You need to be logged in...</p>;
 
@@ -85,7 +89,7 @@ export default function List() {
 				{list.title}
 			</Typography>
 			<AddItemForm cta="add some task here" onSubmit={handleSubmit} />
-			<ItemsList items={tasks} pending={pending} />
+			<ItemsList items={tasks} pending={pending} listId={id} />
 		</Box>
 	);
 }
