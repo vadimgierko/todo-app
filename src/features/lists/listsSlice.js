@@ -43,6 +43,11 @@ export const listsSlice = createSlice({
 			state.pending = false;
 			delete state.value[action.payload.id];
 		},
+		listTitleUpdated: (state, action) => {
+			state.pending = false;
+			const list = state.value[action.payload.id];
+			list.title = action.payload.title;
+		},
 		resetState: (state, action) => {
 			state.value = {};
 			state.pending = false;
@@ -59,6 +64,7 @@ export const {
 	listAdded,
 	listUpdated,
 	listDeleted,
+	listTitleUpdated,
 	resetState,
 } = listsSlice.actions;
 

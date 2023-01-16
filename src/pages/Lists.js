@@ -9,6 +9,7 @@ import AddItemForm from "../components/organisms/AddItemForm";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Link from "@mui/material/Link";
+import ListCard from "../components/molecules/ListCard";
 
 export default function Lists() {
 	const user = useSelector((state) => state.user.value);
@@ -72,9 +73,7 @@ function List({ lists, pending }) {
 		<ul style={{ listStyle: "none", paddingLeft: 0 }}>
 			{Object.keys(lists).map((key) => (
 				<li key={key}>
-					<Link component={RouterLink} to={"/lists/" + key}>
-						{lists[key].title}
-					</Link>
+					<ListCard list={lists[key]} listId={key} />
 				</li>
 			))}
 		</ul>
