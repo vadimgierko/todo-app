@@ -3,7 +3,7 @@ import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { auth } from "./firebaseConfig";
 import { onAuthStateChanged } from "firebase/auth";
-import { useRoutes } from "react-router-dom";
+import { useNavigate, useRoutes } from "react-router-dom";
 // contexts:
 import { useDarkMode } from "./contexts/useDarkMode";
 // components:
@@ -63,7 +63,7 @@ const ROUTES = [
 export default function App() {
 	const { darkMode, switchMode } = useDarkMode(); // darkMode === false by default
 	const dispatch = useDispatch();
-
+	const navigate = useNavigate();
 	const routes = useRoutes(ROUTES);
 
 	// listen to the user logs in & out:
@@ -78,6 +78,8 @@ export default function App() {
 					//========> UNCOMMENT THIS CODE TO FETCH AFTER APP MOUNTS & USER IS LOGGED:
 					dispatch(fetchLists({ reference: "lists/" + uid }));
 					dispatch(fetchTasks({ reference: "tasks/" + uid }));
+					// NAVIGATE USER TO HIS/HER LISTS AFTER SIGN IN/ UP:
+					navigate("/lists");
 				} else {
 					// User is signed out
 					dispatch(userLoggedOut());

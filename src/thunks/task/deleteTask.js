@@ -6,7 +6,7 @@ import { itemDeleted } from "../../features/items/itemsSlice";
 export const deleteTask = createAsyncThunk(
 	"items/delete",
 	async (arg, thunkAPI) => {
-		console.log("THUNK: deleting item...");
+		console.log("THUNK: deleting task...");
 		try {
 			const { uid, taskId: key, listId } = arg;
 			const updates = {};
@@ -14,7 +14,7 @@ export const deleteTask = createAsyncThunk(
 			updates["lists/" + uid + "/" + listId + "/tasks/" + key] = null;
 
 			await update(ref(rtdb), updates);
-			console.log("THUNK: item deleted.");
+			console.log("THUNK: task", key, "deleted.");
 			thunkAPI.dispatch(itemDeleted({ id: key }));
 		} catch (error) {
 			console.log(error);

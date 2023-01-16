@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { Link as RouterLink } from "react-router-dom";
 // thunks:
 import { updateListTitle } from "../../thunks/list/updateListTitle";
-//import { deleteTask } from "../../thunks/task/deleteTask"; => TODO: deleteList
+import { deleteList } from "../../thunks/list/deleteList";
 // custom components
 import UpdateItemForm from "../organisms/UpdateItemForm";
 // mui:
@@ -63,7 +63,7 @@ export default function ListCard({ list, listId }) {
 				}}
 			>
 				<Link component={RouterLink} to={"/lists/" + listId}>
-					{list.title}
+					{list.title} ({list.tasks ? Object.keys(list.tasks).length : 0})
 				</Link>
 			</Typography>
 
@@ -72,28 +72,15 @@ export default function ListCard({ list, listId }) {
 			</IconButton>
 			<IconButton
 				color="error"
-				onClick={() => console.log("Delete me!")}
-				//================================> TODO: enable deleting list
-				// onClick={() => {
-				// 	dispatch(
-				// 		deleteTask({
-				// 			uid: user.id,
-				// 			taskId: itemKey,
-				// 			listId: listId,
-				// 		})
-				// 	).then((dataReturnedFromDispatch) => {
-				// 		let updatedList = { ...lists[listId] };
-				// 		let updatedListTasks = { ...updatedList.tasks };
-				// 		delete updatedListTasks[itemKey];
-				// 		updatedList = { ...updatedList, tasks: updatedListTasks };
-				// 		return dispatch(
-				// 			listUpdated({
-				// 				id: listId,
-				// 				list: updatedList,
-				// 			})
-				// 		);
-				// 	});
-				// }}
+				onClick={() =>
+					dispatch(
+						deleteList({
+							uid: user.id,
+							list: list,
+							listId: listId,
+						})
+					)
+				}
 			>
 				<DeleteOutlinedIcon />
 			</IconButton>

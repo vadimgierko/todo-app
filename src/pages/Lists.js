@@ -14,6 +14,7 @@ import ListCard from "../components/molecules/ListCard";
 export default function Lists() {
 	const user = useSelector((state) => state.user.value);
 	const lists = useSelector((state) => state.lists.value);
+	const tasks = useSelector((state) => state.items.value);
 	const pending = useSelector((state) => state.lists.pending);
 	const dispatch = useDispatch();
 
@@ -40,6 +41,12 @@ export default function Lists() {
 			console.log("Your lists:", lists);
 		}
 	}, [lists, user.id]);
+
+	useEffect(() => {
+		if (user.id) {
+			console.log("Your tasks:", tasks);
+		}
+	}, [tasks, user.id]);
 
 	if (!user.id) return <p>You need to be logged in...</p>;
 
