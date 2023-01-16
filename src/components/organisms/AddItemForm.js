@@ -6,7 +6,7 @@ import IconButton from "@mui/material/IconButton";
 // mui icons:
 import AddBoxOutlinedIcon from "@mui/icons-material/AddBoxOutlined";
 
-export default function AddItemForm({ onSubmit }) {
+export default function AddItemForm({ cta, onSubmit }) {
 	const [inputValue, setInputValue] = useState("");
 
 	function resetInput() {
@@ -27,7 +27,7 @@ export default function AddItemForm({ onSubmit }) {
 				}}
 			>
 				<Input
-					placeholder="add item"
+					placeholder={cta}
 					value={inputValue}
 					onChange={(e) => setInputValue(e.target.value)}
 					sx={{ flexGrow: 1 }}

@@ -1,19 +1,19 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import fetchItemsFromRTDB from "../firebase-rtdb-crud/fetchItems";
+import fetchItems from "../../firebase-rtdb-crud/fetchItems";
 import {
 	startPending,
 	stopPending,
 	itemsFetched,
-} from "../features/items/itemsSlice";
+} from "../../features/items/itemsSlice";
 
-export const fetchItems = createAsyncThunk(
+export const fetchTasks = createAsyncThunk(
 	"items/fetch",
 	async (arg, thunkAPI) => {
-		console.log("THUNK: pending...");
+		console.log("THUNK: fetching tasks...");
 		thunkAPI.dispatch(startPending());
 		try {
-			const items = await fetchItemsFromRTDB(arg.reference);
-			console.log("THUNK: pending is over. Data fetched:", items);
+			const items = await fetchItems(arg.reference);
+			console.log("THUNK: pending tasks is over. Data fetched:", items);
 			if (items) {
 				thunkAPI.dispatch(itemsFetched(items));
 			}

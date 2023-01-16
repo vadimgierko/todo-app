@@ -3,23 +3,25 @@ import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { auth } from "./firebaseConfig";
 import { onAuthStateChanged } from "firebase/auth";
-import { useRoutes } from "react-router-dom";
+import { useNavigate, useRoutes } from "react-router-dom";
 // contexts:
 import { useDarkMode } from "./contexts/useDarkMode";
 // components:
 import Layout from "./layout";
 // pages:
 import About from "./pages/About";
-import Items from "./pages/Items";
 import SignIn from "./pages/SignIn";
 import SignUp from "./pages/SignUp";
 // reducers actions:
 import { userSignedIn, userLoggedOut } from "./features/user/userSlice";
-import { fetchItems } from "./thunks/fetchItems";
+import { fetchLists } from "./thunks/lists/fetchLists";
+import { fetchTasks } from "./thunks/tasks/fetchTasks";
 import { resetState } from "./features/items/itemsSlice";
 // mui:
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
+import Lists from "./pages/Lists";
+import List from "./pages/List";
 
 // mui themes:
 const darkTheme = createTheme({
@@ -41,8 +43,12 @@ const ROUTES = [
 		element: <About />,
 	},
 	{
-		path: "items",
-		element: <Items />,
+		path: "/lists",
+		element: <Lists />,
+	},
+	{
+		path: "/lists/:id",
+		element: <List />,
 	},
 	{
 		path: "signin",
@@ -57,7 +63,7 @@ const ROUTES = [
 export default function App() {
 	const { darkMode, switchMode } = useDarkMode(); // darkMode === false by default
 	const dispatch = useDispatch();
-
+	const navigate = useNavigate();
 	const routes = useRoutes(ROUTES);
 
 	// listen to the user logs in & out:
@@ -70,7 +76,10 @@ export default function App() {
 					const email = user.email;
 					dispatch(userSignedIn({ email: email, id: uid }));
 					//========> UNCOMMENT THIS CODE TO FETCH AFTER APP MOUNTS & USER IS LOGGED:
-					dispatch(fetchItems({ reference: "items/" + uid }));
+					dispatch(fetchLists({ reference: "lists/" + uid }));
+					dispatch(fetchTasks({ reference: "tasks/" + uid }));
+					// NAVIGATE USER TO HIS/HER LISTS AFTER SIGN IN/ UP:
+					navigate("/lists");
 				} else {
 					// User is signed out
 					dispatch(userLoggedOut());

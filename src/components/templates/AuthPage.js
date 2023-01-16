@@ -19,7 +19,7 @@ export default function AuthPage({
 	function handleSubmit(e, userData) {
 		e.preventDefault();
 		onSubmit(userData);
-		navigate(submitText === "sign in" ? "/items" : "/");
+		navigate(submitText === "sign in" ? "/lists" : "/");
 	}
 
 	useEffect(() => {
@@ -49,19 +49,19 @@ export default function AuthPage({
 						? "Don't have an account?"
 						: "Already have an account?"
 				}
-				CTA={submitText === "sign in" ? "Sign Up!" : "Sign In!"}
+				cta={submitText === "sign in" ? "Sign Up!" : "Sign In!"}
 				link={submitText === "sign in" ? "/signup" : "/signin"}
 			/>
 		</Container>
 	);
 }
 
-function AdditionalText({ question, CTA, link }) {
+function AdditionalText({ question, cta, link }) {
 	return (
 		<Typography variant="body2" element="p" sx={{ my: 2 }}>
 			{question}{" "}
 			<Link component={RouterLink} to={link}>
-				{CTA}
+				{cta}
 			</Link>
 		</Typography>
 	);

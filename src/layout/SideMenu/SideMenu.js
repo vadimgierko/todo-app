@@ -18,7 +18,7 @@ import SideMenuList from "./SideMenuList";
 const PAGES_LINKS = {
 	public: [{ name: "About", link: "/", icon: <InfoOutlinedIcon /> }],
 	private: [
-		{ name: "Tasks", link: "/items", icon: <FormatListBulletedIcon /> },
+		{ name: "Your Lists", link: "/lists", icon: <FormatListBulletedIcon /> },
 	],
 };
 
