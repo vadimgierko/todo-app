@@ -85,8 +85,8 @@ export default function List() {
 	return (
 		<Box>
 			<br />
-			<Typography variant="h4" component="h1" sx={{ my: 2 }}>
-				{list.title}
+			<Typography align="center" variant="h4" component="h1" sx={{ my: 2 }}>
+				{list.title} ({list.tasks ? Object.keys(list.tasks).length : 0})
 			</Typography>
 			<AddItemForm cta="add some task here" onSubmit={handleSubmit} />
 			<ItemsList items={tasks} pending={pending} listId={id} />

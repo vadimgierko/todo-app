@@ -53,8 +53,8 @@ export default function Lists() {
 	return (
 		<Box>
 			<br />
-			<Typography variant="h4" component="h1" sx={{ my: 2 }}>
-				Your todo lists
+			<Typography align="center" variant="h4" component="h1" sx={{ my: 2 }}>
+				YOUR TODO LISTS ({lists ? Object.keys(lists).length : 0})
 			</Typography>
 			<AddItemForm
 				cta="type the name of your new todo list"

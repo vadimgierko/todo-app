@@ -22,6 +22,7 @@ import { ThemeProvider, createTheme } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
 import Lists from "./pages/Lists";
 import List from "./pages/List";
+import GTD from "./pages/GTD";
 
 // mui themes:
 const darkTheme = createTheme({
@@ -41,6 +42,10 @@ const ROUTES = [
 	{
 		path: "/",
 		element: <About />,
+	},
+	{
+		path: "/gtd-guide",
+		element: <GTD />,
 	},
 	{
 		path: "/lists",

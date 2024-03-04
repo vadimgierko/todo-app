@@ -16,7 +16,10 @@ import FormatListBulletedIcon from "@mui/icons-material/FormatListBulleted";
 import SideMenuList from "./SideMenuList";
 
 const PAGES_LINKS = {
-	public: [{ name: "About", link: "/", icon: <InfoOutlinedIcon /> }],
+	public: [
+		{ name: "About", link: "/", icon: <InfoOutlinedIcon /> },
+		{ name: "GTD Guide", link: "/gtd-guide", icon: <InfoOutlinedIcon /> },
+	],
 	private: [
 		{ name: "Your Lists", link: "/lists", icon: <FormatListBulletedIcon /> },
 	],
