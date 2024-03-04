@@ -1,6 +1,7 @@
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Link from "@mui/material/Link";
+import { Divider } from "@mui/material";
 
 const PARAGRAPHS = [
 	"This installable web app (SPA/PWA) enables you to create todo lists containing tasks & add, delete, update & check those tasks.",
@@ -19,9 +20,11 @@ function Paragraph({ children }) {
 export default function About() {
 	return (
 		<Box component="div" className="about-page">
-			<Typography variant="h4" component="h1" sx={{ my: 2 }}>
+			<Typography align="center" variant="h4" component="h1" sx={{ my: 2 }}>
 				About the app
 			</Typography>
+			<Divider />
+			<br />
 			{PARAGRAPHS?.map((p, i) => (
 				<Paragraph key={"p" + i}>{p}</Paragraph>
 			))}

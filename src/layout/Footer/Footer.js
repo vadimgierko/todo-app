@@ -15,7 +15,7 @@ export default function Footer() {
 					p: 2,
 				}}
 			>
-				{"Copyright © "}
+				&copy; 2022-{new Date().getFullYear()}{" "}
 				<Link
 					color="inherit"
 					underline="hover"
@@ -24,7 +24,14 @@ export default function Footer() {
 				>
 					Vadim Gierko
 				</Link>{" "}
-				{new Date().getFullYear()}
+				<Link
+					color="inherit"
+					underline="hover"
+					href="https://github.com/vadimgierko/todo-app"
+					target="_blank"
+				>
+					[source code]
+				</Link>
 			</Typography>
 		</Container>
 	);
