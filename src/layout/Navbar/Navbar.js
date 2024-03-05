@@ -1,6 +1,6 @@
-import { useSelector } from "react-redux";
 // contexts:
 import { useDarkMode } from "../../contexts/useDarkMode";
+import { useStore } from "../../contexts/useStore";
 // custom components:
 import UserIconMenu from "./UserIconMenu";
 // mui:
@@ -16,7 +16,8 @@ import Typography from "@mui/material/Typography";
 
 export default function Navbar({ toggleSideMenu }) {
 	const { darkMode, switchMode } = useDarkMode();
-	const user = useSelector((state) => state.user.value);
+	const { store } = useStore();
+	const { user } = store;
 
 	return (
 		<AppBar position="fixed" component="header" color="grey">
@@ -34,9 +35,11 @@ export default function Navbar({ toggleSideMenu }) {
 					</IconButton>
 					{/* empty box to push what's next to the right */}
 					<Box sx={{ flexGrow: 1 }}></Box>
-					<Typography component="span" variant="body1" sx={{ mr: 1 }}>
-						{user.email}
-					</Typography>
+					{user && (
+						<Typography component="span" variant="body1" sx={{ mr: 1 }}>
+							{user.email}
+						</Typography>
+					)}
 					<UserIconMenu />
 					<IconButton size="large" color="inherit" onClick={switchMode}>
 						{darkMode ? <LightModeOutlinedIcon /> : <DarkModeOutlinedIcon />}

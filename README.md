@@ -55,4 +55,9 @@ You can partially implement David Allen's GTD (*Getting Things Done*) System usi
     - define the closest physical next action & add it to NEXT ACTIONS list
   - if it mustn't be done now/ASAP, but you may be interested to do it in the future 👉 add it to SOMEDAY/MAYBE list
 
-Additionally, you can create separate lists for particular projects you're currently working on & put all project-related tasks there. But remember ⚠️ to always define the closest next physical action & to duplicate it into NEXT ACTIONS list (you can also mark this tasks as next action in parentheses inside a project). 
+Additionally, you can create separate lists for particular projects you're currently working on & put all project-related tasks there. But remember ⚠️ to always define the closest next physical action & to duplicate it into NEXT ACTIONS list (you can also mark this tasks as next action in parentheses inside a project).
+
+## 🚀 TODO:
+
+* all user's data must be deleted before user would be deleted
+* consider forcing user to resign in to prevent not deleting user after deleting all data, because of not recent log
