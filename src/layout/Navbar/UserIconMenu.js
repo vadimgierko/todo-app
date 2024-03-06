@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { useSelector } from "react-redux";
 // auth:
 import logOut from "../../auth/logOut";
 // mui:
@@ -12,6 +11,7 @@ import LogoutIcon from "@mui/icons-material/Logout";
 import LoginIcon from "@mui/icons-material/Login";
 // custom components:
 import UserIconMenuList from "./UserIconMenuList";
+import { useStore } from "../../contexts/useStore";
 
 const LINKS = {
 	public: [
@@ -24,7 +24,8 @@ const LINKS = {
 };
 
 export default function UserIconMenu() {
-	const user = useSelector((state) => state.user.value);
+	const { store } = useStore();
+	const { user } = store;
 	const [anchor, setAnchor] = useState(null);
 
 	function handleIconClick(e) {
@@ -42,7 +43,7 @@ export default function UserIconMenu() {
 			</IconButton>
 			<Menu open={Boolean(anchor)} anchorEl={anchor} onClose={handleMenuClick}>
 				<UserIconMenuList
-					listItems={user.id ? LINKS.private : LINKS.public}
+					listItems={user ? LINKS.private : LINKS.public}
 					onClick={handleMenuClick}
 				/>
 			</Menu>

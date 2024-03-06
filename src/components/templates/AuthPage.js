@@ -1,11 +1,11 @@
 import { useEffect } from "react";
-import { useSelector } from "react-redux";
 import { Link as RouterLink, useNavigate } from "react-router-dom";
 import AuthForm from "../organisms/AuthForm";
 // mui:
 import Typography from "@mui/material/Typography";
 import Link from "@mui/material/Link";
 import { Container } from "@mui/system";
+import { useStore } from "../../contexts/useStore";
 
 export default function AuthPage({
 	className,
@@ -13,7 +13,8 @@ export default function AuthPage({
 	submitText,
 	onSubmit = (userData) => console.log(userData),
 }) {
-	const user = useSelector((state) => state.user.value);
+	const { store } = useStore();
+	const { user } = store;
 	const navigate = useNavigate();
 
 	function handleSubmit(e, userData) {
@@ -23,10 +24,10 @@ export default function AuthPage({
 	}
 
 	useEffect(() => {
-		if (user.id) {
-			navigate("/items");
+		if (user) {
+			navigate("/lists");
 		}
-	}, [navigate, user.id]);
+	}, [navigate, user]);
 
 	return (
 		<Container

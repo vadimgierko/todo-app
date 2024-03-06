@@ -4,10 +4,9 @@ import "./index.css";
 import App from "./App";
 import * as serviceWorkerRegistration from "./serviceWorkerRegistration";
 import reportWebVitals from "./reportWebVitals";
-import store from "./store/store";
-import { Provider } from "react-redux";
 import { BrowserRouter } from "react-router-dom";
 import { DarkModeProvider } from "./contexts/useDarkMode";
+import { StoreProvider } from "./contexts/useStore";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
@@ -16,9 +15,9 @@ const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
 	<BrowserRouter basename={process.env.PUBLIC_URL}>
 		<DarkModeProvider>
-			<Provider store={store}>
+			<StoreProvider>
 				<App />
-			</Provider>
+			</StoreProvider>
 		</DarkModeProvider>
 	</BrowserRouter>
 );

@@ -1,4 +1,3 @@
-import { useSelector } from "react-redux";
 // auth:
 import logOut from "../../auth/logOut";
 // mui components:
@@ -14,6 +13,7 @@ import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 import FormatListBulletedIcon from "@mui/icons-material/FormatListBulleted";
 // custom components:
 import SideMenuList from "./SideMenuList";
+import { useStore } from "../../contexts/useStore";
 
 const PAGES_LINKS = {
 	public: [
@@ -36,7 +36,8 @@ const AUTH_LINKS = {
 };
 
 export default function SideMenu({ isOpen, toggleSideMenu }) {
-	const user = useSelector((state) => state.user.value);
+	const { store } = useStore();
+	const { user } = store;
 
 	return (
 		<Drawer anchor="left" open={isOpen} onClose={toggleSideMenu}>
@@ -55,7 +56,7 @@ export default function SideMenu({ isOpen, toggleSideMenu }) {
 				<SideMenuList listItems={PAGES_LINKS.public} onClick={toggleSideMenu} />
 				{/* PRIVATE PAGES LINKS */}
 				<Divider />
-				{user.id && (
+				{user && (
 					<SideMenuList
 						listItems={PAGES_LINKS.private}
 						onClick={toggleSideMenu}
@@ -64,7 +65,7 @@ export default function SideMenu({ isOpen, toggleSideMenu }) {
 				{/* AUTH LINKS */}
 				<Divider />
 				<SideMenuList
-					listItems={user.id ? AUTH_LINKS.private : AUTH_LINKS.public}
+					listItems={user ? AUTH_LINKS.private : AUTH_LINKS.public}
 					onClick={toggleSideMenu}
 				/>
 			</Box>

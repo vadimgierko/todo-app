@@ -1,12 +1,12 @@
 import ItemCard from "../molecules/ItemCard";
 
-export default function ItemsList({ items, pending, listId }) {
-	if (pending)
-		return (
-			<div className="items-list" style={{ textAlign: "center" }}>
-				<p>...pending items... please wait...</p>
-			</div>
-		);
+export default function ItemsList({ items, listId }) {
+	// if (pending)
+	// 	return (
+	// 		<div className="items-list" style={{ textAlign: "center" }}>
+	// 			<p>...pending items... please wait...</p>
+	// 		</div>
+	// 	);
 
 	if (!items || !Object.keys(items).length)
 		return <p className="items-list">There are no items yet... Add one!</p>;

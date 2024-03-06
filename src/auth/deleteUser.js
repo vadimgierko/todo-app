@@ -6,7 +6,7 @@ import { deleteUser } from "firebase/auth";
 
 export default async function deleteUserAccount() {
 	/*
-	TODO:
+	🚀 TODO:
 	* all user's data must be deleted before user would be deleted
 	* consider forcing user to resign in
 	  to prevent not deleting user after deleting all data,

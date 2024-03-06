@@ -1,54 +1,50 @@
 import { useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
-import { Link as RouterLink } from "react-router-dom";
-// thunks:
-import { addList } from "../thunks/list/addList";
 // components:
 import AddItemForm from "../components/organisms/AddItemForm";
 // mui:
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
-import Link from "@mui/material/Link";
 import ListCard from "../components/molecules/ListCard";
+import { useStore } from "../contexts/useStore";
+import addItemWithAutoKey from "../firebase-rtdb-crud/addItemWithAutoKey";
 
 export default function Lists() {
-	const user = useSelector((state) => state.user.value);
-	const lists = useSelector((state) => state.lists.value);
-	const tasks = useSelector((state) => state.items.value);
-	const pending = useSelector((state) => state.lists.pending);
-	const dispatch = useDispatch();
+	const { store, dispatch } = useStore();
+	const { user, lists, tasks } = store;
 
-	function handleSubmit(e, inputValue) {
+	async function handleAddList(e, inputValue) {
 		e.preventDefault();
-		if (inputValue.length) {
+
+		if (inputValue && inputValue.trim().length) {
 			console.log(e, inputValue);
+
 			const reference = "lists/" + user.id;
-			dispatch(
-				addList({
-					reference: reference,
-					list: {
-						title: inputValue,
-					},
-				})
-			);
+
+			console.log("adding a todo list...");
+			try {
+				const list = {
+					title: inputValue,
+				};
+
+				const key = await addItemWithAutoKey(reference, list);
+				console.log("todo list added.");
+				dispatch({ type: "LIST_ADDED", payload: { id: key, list } });
+			} catch (error) {
+				console.log(error);
+			}
 		} else {
 			alert("You cannot add a todo list without the title! Type something!");
 		}
 	}
 
 	useEffect(() => {
-		if (user.id) {
+		if (user) {
 			console.log("Your lists:", lists);
-		}
-	}, [lists, user.id]);
-
-	useEffect(() => {
-		if (user.id) {
 			console.log("Your tasks:", tasks);
 		}
-	}, [tasks, user.id]);
+	}, [lists, tasks, user]);
 
-	if (!user.id) return <p>You need to be logged in...</p>;
+	if (!user) return <p>You need to be logged in...</p>;
 
 	return (
 		<Box>
@@ -58,20 +54,20 @@ export default function Lists() {
 			</Typography>
 			<AddItemForm
 				cta="type the name of your new todo list"
-				onSubmit={handleSubmit}
+				onSubmit={handleAddList}
 			/>
-			<List lists={lists} pending={pending} />
+			<List lists={lists} />
 		</Box>
 	);
 }
 
-function List({ lists, pending }) {
-	if (pending)
-		return (
-			<div style={{ textAlign: "center" }}>
-				<p>...pending todo lists... please wait...</p>
-			</div>
-		);
+function List({ lists }) {
+	// if (pending)
+	// 	return (
+	// 		<div style={{ textAlign: "center" }}>
+	// 			<p>...pending todo lists... please wait...</p>
+	// 		</div>
+	// 	);
 
 	if (!lists || !Object.keys(lists).length)
 		return <p>There are no todo lists yet... Add one!</p>;

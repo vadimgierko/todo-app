@@ -1,9 +1,5 @@
 import { useState } from "react";
-import { useSelector, useDispatch } from "react-redux";
 import { Link as RouterLink } from "react-router-dom";
-// thunks:
-import { updateListTitle } from "../../thunks/list/updateListTitle";
-import { deleteList } from "../../thunks/list/deleteList";
 // custom components
 import UpdateItemForm from "../organisms/UpdateItemForm";
 // mui:
@@ -15,28 +11,105 @@ import Link from "@mui/material/Link";
 import DeleteOutlinedIcon from "@mui/icons-material/DeleteOutlined";
 import EditIcon from "@mui/icons-material/Edit";
 
+import { useStore } from "../../contexts/useStore";
+import { ref, update } from "firebase/database";
+import { rtdb } from "../../firebaseConfig";
+
 export default function ListCard({ list, listId }) {
-	const user = useSelector((state) => state.user.value);
-	const dispatch = useDispatch();
+	const { store, dispatch } = useStore();
+	const { user } = store;
 	const [isEditMode, setIsEditMode] = useState(false);
 
-	const handleUpdate = (e, newValue) => {
+	async function handleUpdateList(e, newValue) {
 		e.preventDefault();
-		if (newValue.length) {
-			dispatch(
-				updateListTitle({
-					listId: listId,
-					title: newValue,
-					uid: user.id,
-				})
-			);
+		if (newValue && newValue.trim().length) {
+			console.log("updating list title...");
+
+			try {
+				const updates = {};
+				updates["lists/" + user.id + "/" + listId + "/title"] = newValue;
+
+				await update(ref(rtdb), updates);
+				console.log("list's title updated in lists.");
+				dispatch({
+					type: "LIST_TITLE_UPDATED",
+					payload: { id: listId, title: newValue },
+				});
+			} catch (error) {
+				console.log(error);
+			}
+
 			setIsEditMode(false);
 		} else {
 			alert("You cannot update an empty list title! Type something!");
 		}
-	};
+	}
 
-	if (!user || !user.id) return <p>You need to be logged...</p>;
+	// DELETES ALL LIST'S TASKS FROM /TASKS BY TASK ID, THEN
+	// DELETES LIST FROM /LISTS
+	async function handleDeleteList() {
+		console.log("deleting list...");
+		try {
+			const updates = {};
+
+			if (list.tasks && Object.keys(list.tasks).length) {
+				console.log(
+					"There are tasks in the list",
+					list.title,
+					listId,
+					". Delete those tasks first..."
+				);
+				await Promise.all(
+					Object.keys(list.tasks).map(async (taskId) => {
+						console.log("deleting task...");
+						try {
+							const updates = {};
+							updates["tasks/" + user.id + "/" + taskId] = null;
+							updates["lists/" + user.id + "/" + listId + "/tasks/" + taskId] =
+								null;
+
+							await update(ref(rtdb), updates);
+							console.log("task", taskId, "deleted.");
+							dispatch({
+								type: "TASK_DELETED",
+								payload: { taskId, listId },
+							});
+						} catch (error) {
+							console.log(error);
+						}
+					})
+				)
+					.then(async () => {
+						console.log(
+							"All tasks from list",
+							list.title,
+							listId,
+							"were deleted. Delete the list now..."
+						);
+						updates["lists/" + user.id + "/" + listId] = null;
+						await update(ref(rtdb), updates);
+						console.log("list", list.title, listId, "deleted.");
+						dispatch({ type: "LIST_DELETED", payload: listId });
+					})
+					.catch((error) => console.log(error.message));
+			} else {
+				console.log(
+					"There are NO tasks in the list",
+					list.title,
+					listId,
+					". Delete the list now..."
+				);
+				updates["lists/" + user.id + "/" + listId] = null;
+				await update(ref(rtdb), updates);
+				console.log("list", list.title, listId, "deleted.");
+				dispatch({ type: "LIST_DELETED", payload: listId });
+			}
+		} catch (error) {
+			console.log(error);
+		}
+	}
+
+	if (!user) return <p>You need to be logged...</p>;
 	if (!list) return null;
 
 	if (isEditMode) {
@@ -44,7 +117,7 @@ export default function ListCard({ list, listId }) {
 		return (
 			<UpdateItemForm
 				defaultValue={list.title}
-				onSubmit={handleUpdate}
+				onSubmit={handleUpdateList}
 				onCancel={() => setIsEditMode(false)}
 			/>
 		);
@@ -70,18 +143,7 @@ export default function ListCard({ list, listId }) {
 			<IconButton onClick={() => setIsEditMode(true)}>
 				<EditIcon />
 			</IconButton>
-			<IconButton
-				color="error"
-				onClick={() =>
-					dispatch(
-						deleteList({
-							uid: user.id,
-							list: list,
-							listId: listId,
-						})
-					)
-				}
-			>
+			<IconButton color="error" onClick={handleDeleteList}>
 				<DeleteOutlinedIcon />
 			</IconButton>
 		</Box>
