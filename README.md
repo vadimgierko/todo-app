@@ -4,7 +4,7 @@
 
 This installable web app (SPA/PWA) enables you to create todo lists containing tasks & add, delete, update & check those tasks.
 
-The app was built using React, Redux Toolkit, React Router, MUI, Firebase & deployed with GitHub Pages.
+The app was built using React, Redux Context API, React Router, MUI, Firebase & deployed with GitHub Pages.
 
 You can use the app in the browser or download it to your device. To use app in the browser, navigate to https://vadimgierko.github.io/todo-app/.
 
@@ -27,16 +27,9 @@ You can download the app from the browser. If you're using Google Chrome, naviga
 - Firebase 9.8
   - Realtime Database
   - Authentication
-- Redux 4
-  - Redux Toolkit 1.8
-  - react-redux package
 - React Router 6.3
 - MUI 5.8
 - GitHub Pages 4.0
-
-## Note
-
-The app was initially generated from my [vadimgierko/react-redux-router-firebase-auth-rtdb-crud-mui-app template](https://github.com/vadimgierko/react-redux-router-firebase-auth-rtdb-crud-mui-app#readme) & was expanded afterwards (the state management system was rewritten from scratch basically).
 
 ## How to use the app with partially implemented GTD system
 
