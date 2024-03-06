@@ -1,84 +1,73 @@
-import { useEffect, useState } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import { useEffect } from "react";
 import { useParams } from "react-router-dom";
-// thunks:
-import { addTask } from "../thunks/task/addTask";
+import { useStore } from "../contexts/useStore";
 // components:
 import AddItemForm from "../components/organisms/AddItemForm";
 import ItemsList from "../components/organisms/ItemsList";
 // mui:
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
-// slices:
-import { listUpdated } from "../features/lists/listsSlice";
+import { child, push, ref, update } from "firebase/database";
+import { rtdb } from "../firebaseConfig";
 
 export default function List() {
 	const { id } = useParams();
-	const user = useSelector((state) => state.user.value);
-	const lists = useSelector((state) => state.lists.value);
-	const items = useSelector((state) => state.items.value);
-	const pending = useSelector((state) => state.items.pending);
-	const dispatch = useDispatch();
-	const [list, setList] = useState();
-	const [tasks, setTasks] = useState();
+	const { store, dispatch } = useStore();
+	const { user, lists, tasks } = store;
 
-	// HANDLE ADDING A NEW TASK TO THE LIST:
-	function handleSubmit(e, inputValue) {
+	const list = id && lists ? lists[id] : null;
+	const listTasks = getListTasks();
+
+	function getListTasks() {
+		if (list && list.tasks && Object.keys(list.tasks).length) {
+			let listTasks = {};
+			Object.keys(list.tasks).forEach(
+				(taskId) => (listTasks = { ...listTasks, [taskId]: tasks[taskId] })
+			);
+			return listTasks;
+		} else {
+			return null;
+		}
+	}
+
+	async function handleAddTask(e, inputValue) {
 		e.preventDefault();
-		if (inputValue.length) {
+
+		if (inputValue && inputValue.trim().length) {
 			console.log(e, inputValue);
-			dispatch(
-				addTask({
-					uid: user.id,
-					task: {
-						value: inputValue,
-						completed: false,
-					},
-					listId: id,
-				})
-			).then((dataReturnedFromDispatch) => {
-				const { payload: taskId } = dataReturnedFromDispatch;
-				dispatch(
-					listUpdated({
-						id: id,
-						list: { ...list, tasks: { ...list.tasks, [taskId]: true } },
-					})
-				);
-			});
+
+			try {
+				const newTask = {
+					value: inputValue,
+					completed: false,
+				};
+				// Get a key for a new task:
+				const key = push(child(ref(rtdb), "tasks/" + user.id)).key;
+
+				// Write the new task's data simultaneously in the tasks and the user's todo list:
+				const updates = {};
+				updates["tasks/" + user.id + "/" + key] = newTask;
+				updates["lists/" + user.id + "/" + id + "/tasks/" + key] = true;
+
+				await update(ref(rtdb), updates);
+				console.log("task added to tasks & list's tasks index.");
+				dispatch({
+					type: "TASK_ADDED",
+					payload: { task: newTask, taskId: key, listId: id },
+				});
+
+				return key;
+			} catch (error) {
+				console.log(error);
+			}
 		} else {
 			alert("You cannot add an empty task! Type something!");
 		}
 	}
 
-	useEffect(() => console.log("items:", items), [items]);
+	useEffect(() => console.log("tasks:", listTasks), [listTasks]);
 
-	// GET LIST DATA BY ID FROM LISTS IN STORE:
-	useEffect(() => {
-		if (id) {
-			const list = lists[id];
-			console.log("list", id, list);
-			setList(list);
-		}
-	}, [id, lists]);
-
-	useEffect(() => {
-		function getListTasks() {
-			if (list && list.tasks && Object.keys(list.tasks).length) {
-				let tasks = {};
-				Object.keys(list.tasks).forEach(
-					(taskId) => (tasks = { ...tasks, [taskId]: items[taskId] })
-				);
-				return tasks;
-			} else {
-				return null;
-			}
-		}
-		const tasks = getListTasks();
-		console.log("tasks in list", id, tasks);
-		setTasks(tasks);
-	}, [items, list, id]);
-
-	if (!user.id) return <p>You need to be logged in...</p>;
+	if (!user) return <p>You need to be logged in...</p>;
 
 	if (!list) return null;
 
@@ -86,10 +75,10 @@ export default function List() {
 		<Box>
 			<br />
 			<Typography align="center" variant="h4" component="h1" sx={{ my: 2 }}>
-				{list.title} ({list.tasks ? Object.keys(list.tasks).length : 0})
+				{list.title} ({listTasks ? Object.keys(listTasks).length : 0})
 			</Typography>
-			<AddItemForm cta="add some task here" onSubmit={handleSubmit} />
-			<ItemsList items={tasks} pending={pending} listId={id} />
+			<AddItemForm cta="add some task here" onSubmit={handleAddTask} />
+			<ItemsList items={listTasks} listId={id} />
 		</Box>
 	);
 }

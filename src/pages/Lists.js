@@ -12,7 +12,7 @@ export default function Lists() {
 	const { store, dispatch } = useStore();
 	const { user, lists, tasks } = store;
 
-	async function handleSubmit(e, inputValue) {
+	async function handleAddList(e, inputValue) {
 		e.preventDefault();
 
 		if (inputValue && inputValue.trim().length) {
@@ -20,7 +20,7 @@ export default function Lists() {
 
 			const reference = "lists/" + user.id;
 
-			console.log("THUNK: adding a todo list...");
+			console.log("adding a todo list...");
 			try {
 				const list = {
 					title: inputValue,
@@ -54,7 +54,7 @@ export default function Lists() {
 			</Typography>
 			<AddItemForm
 				cta="type the name of your new todo list"
-				onSubmit={handleSubmit}
+				onSubmit={handleAddList}
 			/>
 			<List lists={lists} />
 		</Box>
