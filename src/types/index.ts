@@ -25,6 +25,6 @@ export interface Tasks {
 }
 
 export interface User {
-	email: string;
+	email: string | null;
 	id: string;
 }

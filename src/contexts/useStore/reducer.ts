@@ -21,7 +21,10 @@ export type ReducerAction =
 	  }
 	| { type: "TASK_DELETED"; payload: { taskId: string; listId: string } };
 
-export default function reducer(prevState: Store, action: ReducerAction) {
+export default function reducer(
+	prevState: Store,
+	action: ReducerAction
+): Store {
 	switch (action.type) {
 		case "USER_SIGNED_IN":
 			return {
